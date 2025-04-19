@@ -18,6 +18,7 @@ import History from "./Pages/PatientJourney2/History.jsx";
 import Home from "./Pages/Home/Home.jsx";
 import Products from "./Pages/Product/Products.jsx";
 import Addproduct from "./Pages/Product/Addproduct.jsx";
+import Categories from "./Pages/Categories/Categories.jsx";
 const queryClient = new QueryClient();
 
 export const RolesContext = createContext([]);
@@ -63,6 +64,8 @@ const App = () => {
                     {/* Product */}
                     <Route path="/Products" element={<Products />} />
                     <Route path="/Add-Products" element={<Addproduct />} />
+                    {/* Categories */}
+                    <Route path="/Categories" element={<Categories />} />
 
                     {/* Master Data */}
                     <Route
@@ -101,7 +104,6 @@ const App = () => {
                         </ProtectedRoute>
                       }
                     />
-
                     <Route
                       path="/PatientJourney"
                       element={

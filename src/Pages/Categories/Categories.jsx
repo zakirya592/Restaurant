@@ -22,17 +22,20 @@ import Swal from "sweetalert2";
 import newRequest from "../../utils/newRequest";
 import SideNav from "../../components/Sidebar/SideNav";
 import { useNavigate } from "react-router-dom";
+import AddCategory from "./AddCategory";
 
-function Products() {
-     const navigate = useNavigate();
+function Categories() {
+  const navigate = useNavigate();
   const [getallbeds, setgetallbeds] = useState([]);
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
-  const [isAddbedsModalOpen, setisAddbedsModalOpen] = useState(false);
   const [editBed, seteditBed] = useState(false);
   const [selectedBed, setSelectedBed] = useState(null);
+
+  
+  const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
 
   const fetchbeds = async () => {
     setLoading(true);
@@ -68,7 +71,7 @@ function Products() {
         try {
           const response = await newRequest.delete(`/api/v1/beds/${bedss?.id}`);
           toast.success(
-            response?.data?.message || "Products has been deleted successfully"
+            response?.data?.message || "Categories has been deleted successfully"
           );
           fetchbeds();
         } catch (error) {
@@ -86,8 +89,8 @@ function Products() {
   };
 
   const columns = [
-    { name: "Products NUMBER", uid: "bednumber" },
-    { name: "STATUS", uid: "status" },
+    { name: "Name", uid: "bednumber" },
+    { name: "Image", uid: "status" },
     { name: "CREATED DATE", uid: "createdAt" },
     { name: "UPDATED DATE", uid: "updatedAt" },
     { name: "ACTIONS", uid: "actions" },
@@ -143,14 +146,12 @@ function Products() {
                   isIconOnly
                   size="sm"
                   variant="light"
-                //   className="text-gray-500 hover:text-green-600 transition-colors duration-200"
                 >
                   <BsThreeDotsVertical size={20} />
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
-                aria-label="Products actions"
-                // className="bg-white shadow-lg rounded-lg p-1 border border-gray-200"
+                aria-label="Categories actions"
               >
                 <DropdownItem
                   key="edit"
@@ -158,7 +159,7 @@ function Products() {
                   startContent={<FaEdit className="text-green-600" />}
                   onClick={() => handleedit(bedss)}
                 >
-                  Edit Products
+                  Edit Categories
                 </DropdownItem>
                 <DropdownItem
                   key="delete"
@@ -166,7 +167,7 @@ function Products() {
                   startContent={<FaTrash />}
                   onClick={() => handleDelete(bedss)}
                 >
-                  Delete Products
+                  Delete Categories
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
@@ -180,9 +181,6 @@ function Products() {
   const topContent = useMemo(
     () => (
       <div className="flex flex-col gap-4 mb-6">
-        <h2 className="text-2xl font-semibold text-gray-800">
-          Products Management
-        </h2>
         <div className="flex justify-between items-center">
           <div className="relative w-full sm:max-w-[44%]">
             {/* <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" /> */}
@@ -190,22 +188,21 @@ function Products() {
               isClearable
               value={search}
               onValueChange={setSearch}
-             classNames={{
+              classNames={{
                 input: "pl-8",
                 clearButton: "text-gray-500",
               }}
               placeholder="Search by Product ..."
               startContent={<FaSearch className="text-default-300" />}
             />
-           
           </div>
 
           <Button
-            className="bg-primary text-white hover:bg-green-700 transition-all duration-300 rounded-lg px-5 py-2.5 flex items-center gap-2"
+            className="bg-primary text-white hover:bg-green-700 transition-all duration-300 rounded-lg px-5 flex"
             startContent={<FaPlus />}
-            onClick={() => navigate("/Add-Products")}
+            onClick={() => setIsAddCategoryModalOpen(true)}
           >
-            Add New Products
+            Add New Categories
           </Button>
         </div>
       </div>
@@ -217,7 +214,7 @@ function Products() {
     () => (
       <div className="py-3 px-4 flex justify-between items-center">
         <span className="text-sm text-gray-500">
-          {pagination?.total || 0} Products in total
+          {pagination?.total || 0} Categories in total
         </span>
         <Pagination
           isCompact
@@ -230,7 +227,7 @@ function Products() {
           classNames={{
             wrapper: "gap-1",
             item: "bg-transparent text-gray-700 hover:bg-green-50",
-            cursor: "bg-green-600 text-white font-medium",
+            cursor: "text-white font-medium",
           }}
         />
       </div>
@@ -241,18 +238,20 @@ function Products() {
   return (
     <SideNav>
       <div className="p-6 bg-gray-50 min-h-screen">
-        <div className="bg-white shadow-lg rounded-lg p-6">
+        <h2 className="text-2xl font-semibold text-gray-800">Categories</h2>
+        <div className="p-6">
           <Table
-            aria-label="Products table"
+            aria-label="Categories table"
             bottomContent={bottomContent}
             topContent={topContent}
             classNames={{
-              wrapper: "rounded-lg overflow-hidden",
-              base: "overflow-x-auto",
+              //   wrapper: "rounded-lg overflow-hidden",
+              wrapper: "shadow-md rounded-lg",
+              //   base: "overflow-x-auto",
               th: "bg-primary text-white font-bold text-md uppercase tracking-wide py-3.5 px-4",
-              td: "py-3 px-4 text-sm",
+              //   td: "py-3 px-4 text-sm",
               tr: "border-b border-gray-100 hover:bg-green-50/30 transition-colors duration-150",
-              tbody: "divide-y divide-gray-100",
+              //   tbody: "divide-y divide-gray-100",
               table: "min-w-full",
             }}
           >
@@ -270,7 +269,7 @@ function Products() {
               items={getallbeds}
               emptyContent={
                 <div className="text-center text-gray-500 py-8">
-                  No Products found
+                  No Categories found
                 </div>
               }
               isLoading={loading}
@@ -291,8 +290,12 @@ function Products() {
           </Table>
         </div>
       </div>
+      <AddCategory
+        isOpen={isAddCategoryModalOpen}
+        onClose={() => setIsAddCategoryModalOpen(false)}
+      />
     </SideNav>
   );
 }
 
-export default Products;
+export default Categories;

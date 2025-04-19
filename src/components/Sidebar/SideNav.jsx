@@ -50,6 +50,15 @@ function SideNav({ children }) {
         </div>
       ),
     },
+    {
+      label: "Categories",
+      path: "/Categories",
+      icon: (
+        <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-green-50">
+          <img src={Registration} alt="Categories" className="w-5 h-5" />
+        </div>
+      ),
+    },
 
     {
       label: "MasterData",
