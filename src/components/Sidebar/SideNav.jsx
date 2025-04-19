@@ -61,54 +61,6 @@ function SideNav({ children }) {
     },
 
     {
-      label: "MasterData",
-      path: "#",
-      icon: (
-        <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-purple-50">
-          <img src={MasterData} alt="MasterData" className="w-5 h-5" />
-        </div>
-      ),
-      subItems: [
-        {
-          label: "Users",
-          path: "/users",
-          icon: (
-            <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-green-50">
-              <img src={Usersicon} alt="Users" className="w-4 h-4" />
-            </div>
-          ),
-        },
-        {
-          label: "Roles",
-          path: "/Roles",
-          icon: (
-            <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-green-50">
-              <img src={Rolesicon} alt="Roles" className="w-4 h-4" />
-            </div>
-          ),
-        },
-        {
-          label: "Beds",
-          path: "/Beds",
-          icon: (
-            <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-green-50">
-              <img src={Beds} alt="Beds" className="w-4 h-4" />
-            </div>
-          ),
-        },
-        {
-          label: "Department",
-          path: "/Department",
-          icon: (
-            <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-green-50">
-              <img src={Department} alt="Department" className="w-4 h-4" />
-            </div>
-          ),
-        },
-      ],
-    },
-
-    {
       label: "History",
       path: "/PatientJourney",
       icon: (
@@ -124,7 +76,6 @@ function SideNav({ children }) {
     return storedUserData ? JSON.parse(storedUserData) : null;
   });
 
-  const [showPopup, setShowPopup] = useState(false);
   const handleItemClick = (item) => {
    navigate(item.path);
   };
@@ -161,15 +112,13 @@ function SideNav({ children }) {
       <div className="p-0 lg:h-screen">
         <div className="body-content">
           <nav
-            className={`fixed top-0 transition-all duration-300 ease-in-out bg-white lg:mt-0 mt-16 bottom-0 flex flex-col shadow-lg overflow-hidden z-50 ${
+            className={`fixed top-0 transition-all duration-300 ease-in-out bg-primary text-white lg:mt-0 mt-16 bottom-0 flex flex-col shadow-lg overflow-hidden z-50 ${
               isOpen ? "w-[280px]" : "w-[80px]"
             }`}
             id="sidenav"
           >
             {/* Logo Section */}
-            <div
-              className="flex items-center w-full px-4 py-5 border-b border-gray-100 justify-center bg-green-50"
-            >
+            <div className="flex items-center w-full px-4 py-5 justify-center bg-primary">
               <div
                 className={`transition-opacity duration-300 justify-center cursor-pointer ${
                   !isOpen ? "opacity-0 w-0" : "opacity-100"
@@ -198,10 +147,10 @@ function SideNav({ children }) {
                     </span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-800 truncate">
+                    <p className="text-md font-medium text-white truncate">
                       {userData?.user?.name || "User"}
                     </p>
-                    <p className="text-xs text-gray-500 truncate">
+                    <p className="text-xs text-white truncate">
                       {userData?.user?.email || "admin@example.com"}
                     </p>
                   </div>
@@ -212,28 +161,27 @@ function SideNav({ children }) {
             {/* Navigation Items */}
             <div className="flex-1 overflow-y-auto py-4">
               <ul className="px-3 space-y-1">
-                {sidebarItems.map((item, index) =>
-                    <li key={index} className="mb-1">
-                      <div
-                        className={`flex items-center py-2.5 px-3 rounded-lg transition-all duration-200 relative group cursor-pointer ${
-                          activeTab === item.path
-                            ? "bg-green-100 text-green-800 font-medium"
-                            : "hover:bg-gray-50 text-gray-700"
+                {sidebarItems.map((item, index) => (
+                  <li key={index} className="mb-1">
+                    <div
+                      className={`flex items-center py-2.5 px-3 rounded-lg transition-all duration-200 relative group cursor-pointer ${
+                        activeTab === item.path
+                          ? "bg-green-100 text-green-800 font-medium"
+                          : "hover:bg-gray-50 text-gray-700"
+                      }`}
+                      onClick={() => handleItemClick(item)}
+                    >
+                      {item.icon}
+                      <span
+                        className={`font-medium whitespace-nowrap transition-all duration-300 ms-3 ${
+                          !isOpen && "opacity-0 w-0 overflow-hidden"
                         }`}
-                        onClick={() => handleItemClick(item)}
                       >
-                        {item.icon}
-                        <span
-                          className={`font-medium whitespace-nowrap transition-all duration-300 ms-3 ${
-                            !isOpen && "opacity-0 w-0 overflow-hidden"
-                          }`}
-                        >
-                          {item.label}
-                        </span>
-                      </div>
-                    </li>
-                  
-                )}
+                        {item.label}
+                      </span>
+                    </div>
+                  </li>
+                ))}
               </ul>
             </div>
 
@@ -279,17 +227,23 @@ function SideNav({ children }) {
               </button>
               <div className="ml-4">
                 <h2 className="text-lg font-semibold text-gray-800">
-                  {location.pathname.substring(1).replace(/-/g, " ").charAt(0).toUpperCase() +
-                  location.pathname.substring(1).replace(/-/g, " ").slice(1).toLowerCase() || "Dashboard"}
+                  {location.pathname
+                    .substring(1)
+                    .replace(/-/g, " ")
+                    .charAt(0)
+                    .toUpperCase() +
+                    location.pathname
+                      .substring(1)
+                      .replace(/-/g, " ")
+                      .slice(1)
+                      .toLowerCase() || "Dashboard"}
                 </h2>
               </div>
             </div>
           </section>
 
           {/* Page content */}
-          <div className="main-content">
-            {children}
-          </div>
+          <div className="main-content">{children}</div>
         </div>
       </div>
     </>

@@ -230,7 +230,7 @@ function Products() {
           classNames={{
             wrapper: "gap-1",
             item: "bg-transparent text-gray-700 hover:bg-green-50",
-            cursor: "bg-green-600 text-white font-medium",
+            cursor: "text-white font-medium",
           }}
         />
       </div>

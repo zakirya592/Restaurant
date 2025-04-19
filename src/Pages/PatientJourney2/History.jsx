@@ -183,7 +183,7 @@ function History() {
             isCompact
             showControls
             showShadow
-            color="secondary"
+            // color="secondary"
             page={page}
             total={pagination?.totalPages || 1}
             onChange={setPage}
@@ -204,7 +204,9 @@ function History() {
       <SideNav>
         <div className="p-6 bg-gray-50 min-h-screen">
           <div className="bg-white shadow-lg rounded-lg p-6">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-6">History</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+              History
+            </h2>
             <div className="flex flex-col gap-4 mb-8">
               <div className="flex flex-wrap items-center gap-4">
                 <Input
@@ -245,19 +247,20 @@ function History() {
               </div>
             </div>
 
-            <div className="overflow-x-auto" style={{ maxWidth: '100%' }}>
+            <div className="overflow-x-auto" style={{ maxWidth: "100%" }}>
               <Table
                 aria-label="Patient Journey"
                 bottomContent={bottomContent}
                 topContent={null}
                 classNames={{
-                  wrapper: "shadow-md rounded-lg bg-white mt-6 w-full min-w-[1200px]", // Set a minimum width
-                  base: "min-w-full table-fixed", // Use table-fixed for better column control
-                  th: "bg-green-50 text-green-800 font-semibold text-xs uppercase tracking-wide py-3 px-3",
-                  td: "py-3 px-3 text-sm whitespace-nowrap text-gray-700",
-                  tr: "border-b border-gray-100 hover:bg-green-50/30 transition-colors duration-150 cursor-pointer",
-                  // tbody: "divide-y divide-gray-100",
-                  table: "min-w-full"
+                  //   wrapper: "rounded-lg overflow-hidden",
+                  wrapper: "shadow-md rounded-lg",
+                  //   base: "overflow-x-auto",
+                  th: "bg-primary text-white font-bold text-md uppercase tracking-wide py-3.5 px-4",
+                  //   td: "py-3 px-4 text-sm",
+                  tr: "border-b border-gray-100 hover:bg-green-50/30 transition-colors duration-150",
+                  //   tbody: "divide-y divide-gray-100",
+                  table: "min-w-full",
                 }}
                 sortDescriptor={{
                   column: sortBy,
@@ -290,13 +293,9 @@ function History() {
                   }
                 >
                   {(item) => (
-                    <TableRow
-                      key={item.id}
-                    >
+                    <TableRow key={item.id}>
                       {(columnKey) => (
-                        <TableCell>
-                          {renderCell(item, columnKey)}
-                        </TableCell>
+                        <TableCell>{renderCell(item, columnKey)}</TableCell>
                       )}
                     </TableRow>
                   )}
